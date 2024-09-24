@@ -10,7 +10,15 @@
  */
 
 #include "menu.hpp"
+#include <iostream>
 
 int main() {
-  
+  menu::Menu *menu = new menu::Menu;
+
+  // Start the spplication
+  menu->StartApp();
+
+  delete menu;
+
+return 0;
 }
