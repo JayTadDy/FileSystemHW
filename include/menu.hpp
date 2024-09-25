@@ -94,7 +94,7 @@ class Menu {
    * @brief Method to display file info in order entered by user
    *
    */
-  void DisplayInOrder(bool order);
+  void DisplayInOrder(std::uint8_t order);
 
   /**
    * @brief Method to infomation for a single file

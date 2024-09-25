@@ -19,9 +19,9 @@ int main() {
   menu->StartApp();
 
   std::string command = {};
-  std::cin >> command;
   while(command != "exit") {
-    RunAppLogic(command);
+    std::cin >> command;
+    menu->RunAppLogic(command);
   }
   menu->Exit();
   delete menu;

@@ -18,6 +18,9 @@ namespace file_security {
 enum class EncriptionType { Symmetric = 0, Asymmetric };
 
 struct FileSecurity {
+  FileSecurity() {}
+  FileSecurity(file_security::EncriptionType encription_type, std::uint8_t key_length, std::string encription_time)
+      : encription_type_(encription_type), key_length_(key_length), encription_time_(encription_time) {}
   EncriptionType encription_type_;
   std::uint8_t key_length_;
   std::string encription_time_;
@@ -28,17 +31,17 @@ namespace filesystem_info {
 class FileSystem {
  public:
   // Default contrustor
-  FileSystem() {};
+  FileSystem() {}
 
   // User-defined constructor with arguments
-  FileSystem::FileSystem(std::string file_name, std::string creation_date, std::uint64_t number_of_file_accesses,
-                         std::string file_size, file_security::EncriptionType enription_type, std::uint8_t key_length,
-                         std::string encription_time)
-      : file_name_{file_name},
-        creation_date_{creation_date},
-        number_of_file_accesses_{number_of_file_accesses},
-        file_size_{file_size},
-        file_security_info_{enription_type, key_length, encription_time} {}
+  FileSystem(std::string file_name, std::string creation_date, std::uint64_t number_of_file_accesses,
+             std::string file_size, file_security::EncriptionType encription_type, std::uint8_t key_length,
+             std::string encription_time)
+      : file_name_(file_name),
+        creation_date_(creation_date),
+        number_of_file_accesses_(number_of_file_accesses),
+        file_size_(file_size),
+        file_security_info_(file_security::FileSecurity(encription_type, key_length, encription_time)) {}
 
   ~FileSystem() = default;
 

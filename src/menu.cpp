@@ -16,9 +16,9 @@
 using filesystem_info::FileSystem;
 
 namespace menu {
-Menu::Menu() : available_commands{} {
-  files_container_ = std::make_unique<std::vector<FileSystem>>(nullptr);
-  available_commands = {"list", "add", "file info", "show from", "show in order", "update", "rm", "clear"};
+Menu::Menu() : available_commands() {
+  files_container_ = std::make_unique<std::vector<FileSystem>>();
+  available_commands = {"list", "add", "fi", "sf", "sio", "update", "rm", "clear"};
 }
 
 void Menu::Init() {
@@ -39,7 +39,6 @@ void Menu::Init() {
 }
 
 void Menu::StartApp() {
-  is_running_ = 1;
 
   // Set some file to works with
   Init();
@@ -54,14 +53,14 @@ void Menu::DisplayMainMenu() {
 }
 
 void Menu::DisplayPossibleCommands() {
-  std::cout << "List of available commands:\n\t1.list - to Show all the existing files\n\t /"
-               "2. add - to add the info about a file / "
-               "3. file info - To show all the info about the file you want to see\n\t / "
-               "4. show from - to display all the files starting from the needed index\tNOTE. / "
-               "All files are sorted and numbered\n\t / "
-               "5.show in order - To display info in the following order.\n\t / "
-               "6. update - to update files information\n\t / "
-               "7. rm - to remove the file\n\t / "
+  std::cout << "List of available commands:\n\t1. list - to Show all the existing files\n\t"
+               "2. add - to add the info about a file\n\t"
+               "3. fi - To show all the info about the file you want to see\n\t"
+               "4. sf - to display all the files starting from the needed index\tNOTE."
+               "All files are sorted and numbered\n\t"
+               "5. sio - To display info in the following order.\n\t"
+               "6. update - to update files information\n\t"
+               "7. rm - to remove the file\n\t"
                "8. clear - to delete all the information."
             << std::endl;
 
@@ -69,29 +68,29 @@ void Menu::DisplayPossibleCommands() {
 }
 
 void Menu::AddFile() {
-  std::string file_name{};
+  std::string file_name;
   std::cout << "Enter file name: ";
   std::cin >> file_name;
   std::cout << std::endl;
 
-  std::string creation_date{};
+  std::string creation_date;
   std::cout << "Enter creation date in format dd.mm.yyyy: ";
   std::cin >> creation_date;
   std::cout << std::endl;
 
-  std::uint64_t number_of_file_accesses{};
+  std::uint64_t number_of_file_accesses;
   std::cout << "Enter the number of file accesses: ";
   std::cin >> number_of_file_accesses;
   std::cout << std::endl;
 
-  std::string file_size{};
+  std::string file_size;
   std::cout << "Enter expected file size: ";
   std::cin >> file_size;
   std::cout << std::endl;
 
-  bool encryption_type_command{};
-  file_security::EncriptionType encription_type{};
-  std::cout << "Select the encription type for file:\n\t1.0 - for Symmetric\n\t1. - for Assymetric ";
+  bool encryption_type_command;
+  file_security::EncriptionType encription_type;
+  std::cout << "Select the encription type for file:\n\t0 - for Symmetric\n\t1 - for Assymetric ";
   std::cin >> encryption_type_command;
   std::cout << std::endl;
   if (encryption_type_command) {
@@ -100,17 +99,11 @@ void Menu::AddFile() {
     encription_type = file_security::EncriptionType::Symmetric;
   }
 
-  std::uint8_t key_length{};
+  std::uint8_t key_length;
   std::cout << "Select the expected key size in bits: 32, 64, 128, 256 ";
   std::cin >> key_length;
-  std::cout << std::endl;
-  while ((key_length != 32) || (key_length != 64) || (key_length != 128) || (key_length != 256)) {
-    std::cout << "Enter the correct value which is one of the following: 32, 64, 128, 256: ";
-    std::cin >> key_length;
-    std::cout << std::endl;
-  }
 
-  std::string encription_time{};
+  std::string encription_time;
   std::cout << "Enter expected encription_time: ";
   std::cin >> encription_time;
   std::cout << std::endl;
@@ -149,28 +142,28 @@ void Menu::UpdateFileInfo(std::uint8_t file_index) {
   if (IsEmpty()) {
     std::cout << "There is not files to update!" << std::endl;
   } else {
-    std::string file_name{};
+    std::string file_name;
     std::cout << "Enter file name: ";
     std::cin >> file_name;
     std::cout << std::endl;
 
-    std::string creation_date{};
+    std::string creation_date;
     std::cout << "Enter creation date in format dd.mm.yyyy: ";
     std::cin >> creation_date;
     std::cout << std::endl;
 
-    std::uint64_t number_of_file_accesses{};
+    std::uint64_t number_of_file_accesses;
     std::cout << "Enter the number of file accesses: ";
     std::cin >> number_of_file_accesses;
     std::cout << std::endl;
 
-    std::string file_size{};
+    std::string file_size;
     std::cout << "Enter expected file size: ";
     std::cin >> file_size;
     std::cout << std::endl;
 
-    bool encryption_type_command{};
-    file_security::EncriptionType encription_type{};
+    bool encryption_type_command;
+    file_security::EncriptionType encription_type;
     std::cout << "Select the encription type for file:\n\t1.0 - for Symmetric\n\t1. - for Assymetric ";
     std::cin >> encryption_type_command;
     std::cout << std::endl;
@@ -180,7 +173,7 @@ void Menu::UpdateFileInfo(std::uint8_t file_index) {
       encription_type = file_security::EncriptionType::Symmetric;
     }
 
-    std::uint8_t key_length{};
+    std::uint8_t key_length;
     std::cout << "Select the expected key size in bits: 32, 64, 128, 256 ";
     std::cin >> key_length;
     std::cout << std::endl;
@@ -190,7 +183,7 @@ void Menu::UpdateFileInfo(std::uint8_t file_index) {
       std::cout << std::endl;
     }
 
-    std::string encription_time{};
+    std::string encription_time;
     std::cout << "Enter expected encription_time: ";
     std::cin >> encription_time;
     std::cout << std::endl;
@@ -238,7 +231,7 @@ void Menu::DisplayAllFilesInfo(std::uint8_t start_index) {
   }
 }
 
-void Menu::DisplayInOrder(bool order) {
+void Menu::DisplayInOrder(std::uint8_t order) {
   if (IsEmpty()) {
     std::cout << "There is not files" << std::endl;
   } else {
@@ -271,36 +264,36 @@ void Menu::RunAppLogic(std::string input_command) {
     DisplayAllFilesList();
   } else if (input_command == "add") {
     AddFile();
-  } else if (input_command == "file info") {
-    std::uint8_t file_index = {};
+  } else if (input_command == "fi") {
+    std::uint8_t file_index;
     std::cout << "Enter file index you want to see. File list: " << std::endl;
     DisplayAllFilesList();
     std::cin >> file_index;
     std::cout << std::endl;
-    DisplayFileInfo(input_file_index);
-  } else if (input_command == "show from") {
-    std::uint8_t file_index = {};
+    DisplayFileInfo(file_index);
+  } else if (input_command == "sf") {
+    std::uint8_t file_index;
     std::cout << "Enter file index you want to see. File list: " << std::endl;
     DisplayAllFilesList();
     std::cin >> file_index;
     std::cout << std::endl;
     DisplayAllFilesInfo();
-  } else if (input_command == "show in order") {
-    bool order = 0;
+  } else if (input_command == "sio") {
+    std::uint8_t order;
     std::cout << "Enter a number in which order you want to see files info:\n\t0 - direct order;\n\t1 - reverse order"
               << std::endl;
     std::cin >> order;
     std::cout << std::endl;
     DisplayInOrder(order);
   } else if (input_command == "update") {
-    std::uint8_t file_index = {};
+    std::uint8_t file_index;
     std::cout << "Enter file index you want to update. File list: " << std::endl;
     DisplayAllFilesList();
     std::cin >> file_index;
     std::cout << std::endl;
-    UpdateFileInfo(index);
+    UpdateFileInfo(file_index);
   } else if (input_command == "rm") {
-    std::uint8_t file_index = {};
+    std::uint8_t file_index;
     std::cout << "Enter file index you want to delete. File list: " << std::endl;
     DisplayAllFilesList();
     std::cin >> file_index;
@@ -308,10 +301,8 @@ void Menu::RunAppLogic(std::string input_command) {
     RemoveFileInfo(file_index);
   } else if (input_command == "clear") {
     ClearAllFilesInfo();
-  } else {
-    while (IncorrectCommand(input_command)) {
+  } else if(IncorrectCommand(input_command)) {
       DisplayPossibleCommands();
-    }
   }
 }
 
