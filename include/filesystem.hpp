@@ -19,10 +19,10 @@ enum class EncriptionType { Symmetric = 0, Asymmetric };
 
 struct FileSecurity {
   FileSecurity() {}
-  FileSecurity(file_security::EncriptionType encription_type, std::uint8_t key_length, std::string encription_time)
+  FileSecurity(file_security::EncriptionType encription_type, std::uint16_t key_length, std::string encription_time)
       : encription_type_(encription_type), key_length_(key_length), encription_time_(encription_time) {}
   EncriptionType encription_type_;
-  std::uint8_t key_length_;
+  std::uint16_t key_length_;
   std::string encription_time_;
 };
 }  // namespace file_security
@@ -35,7 +35,7 @@ class FileSystem {
 
   // User-defined constructor with arguments
   FileSystem(std::string file_name, std::string creation_date, std::uint64_t number_of_file_accesses,
-             std::string file_size, file_security::EncriptionType encription_type, std::uint8_t key_length,
+             std::string file_size, file_security::EncriptionType encription_type, std::uint16_t key_length,
              std::string encription_time)
       : file_name_(file_name),
         creation_date_(creation_date),

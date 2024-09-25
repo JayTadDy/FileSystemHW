@@ -20,10 +20,11 @@ int main() {
 
   std::string command = {};
   while(command != "exit") {
+    std::cout << "Enter a command: ";
     std::cin >> command;
     menu->RunAppLogic(command);
   }
-  menu->Exit();
+
   delete menu;
 
 return 0;

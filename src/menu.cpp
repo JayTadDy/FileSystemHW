@@ -39,7 +39,6 @@ void Menu::Init() {
 }
 
 void Menu::StartApp() {
-
   // Set some file to works with
   Init();
   DisplayMainMenu();
@@ -61,10 +60,9 @@ void Menu::DisplayPossibleCommands() {
                "5. sio - To display info in the following order.\n\t"
                "6. update - to update files information\n\t"
                "7. rm - to remove the file\n\t"
-               "8. clear - to delete all the information."
+               "8. clear - to delete all the information.\n\t"
+               "9. exit - to stop the program!"
             << std::endl;
-
-  // TO DO: Add a back() command to return to main menu
 }
 
 void Menu::AddFile() {
@@ -99,7 +97,7 @@ void Menu::AddFile() {
     encription_type = file_security::EncriptionType::Symmetric;
   }
 
-  std::uint8_t key_length;
+  std::uint16_t key_length;
   std::cout << "Select the expected key size in bits: 32, 64, 128, 256 ";
   std::cin >> key_length;
 
@@ -121,11 +119,12 @@ bool Menu::IncorrectCommand(std::string input_command) {
   }
 }
 
-void Menu::RemoveFileInfo(std::uint8_t file_index) {
+void Menu::RemoveFileInfo(std::uint16_t file_index) {
   if (IsEmpty()) {
-    std::cout << "There is no files to remove!" << std::endl;
+    std::cout << "There is no files to remove!" << std::endl << std::endl;
   } else {
     files_container_->erase(files_container_->begin() + file_index);
+    std::cout << "File removed!" << std::endl << std::endl;
   }
 }
 
@@ -134,13 +133,14 @@ void Menu::ClearAllFilesInfo() {
     std::cout << "Already clear!" << std::endl;
   } else {
     files_container_->clear();
-    std::cout << "Deleted successfully!" << std::endl;
+    std::cout << "Deleted successfully!" << std::endl << std::endl;
+    ;
   }
 }
 
-void Menu::UpdateFileInfo(std::uint8_t file_index) {
+void Menu::UpdateFileInfo(std::uint16_t file_index) {
   if (IsEmpty()) {
-    std::cout << "There is not files to update!" << std::endl;
+    std::cout << "There is no files to update!" << std::endl << std::endl;
   } else {
     std::string file_name;
     std::cout << "Enter file name: ";
@@ -173,7 +173,7 @@ void Menu::UpdateFileInfo(std::uint8_t file_index) {
       encription_type = file_security::EncriptionType::Symmetric;
     }
 
-    std::uint8_t key_length;
+    std::uint16_t key_length;
     std::cout << "Select the expected key size in bits: 32, 64, 128, 256 ";
     std::cin >> key_length;
     std::cout << std::endl;
@@ -190,22 +190,25 @@ void Menu::UpdateFileInfo(std::uint8_t file_index) {
 
     files_container_->at(file_index) = FileSystem(file_name, creation_date, number_of_file_accesses, file_size,
                                                   encription_type, key_length, encription_time);
+    std::cout << std::endl;
   }
 }
 
 void Menu::DisplayAllFilesList() {
   if (IsEmpty()) {
-    std::cout << "There is no files!" << std::endl;
+    std::cout << "There is no files!" << std::endl << std::endl;
   } else {
-    for (std::uint8_t index = 0; index < files_container_->size(); ++index) {
+    std::cout << "Files: " << std::endl;
+    for (std::uint16_t index = 0; index < files_container_->size(); ++index) {
       std::cout << index << ". " << files_container_->at(index).GetFileName() << std::endl;
     }
+    std::cout << std::endl;
   }
 }
 
-void Menu::DisplayFileInfo(std::uint8_t file_index) {
+void Menu::DisplayFileInfo(std::uint16_t file_index) {
   if (IsEmpty()) {
-    std::cout << "There is no files!" << std::endl;
+    std::cout << "There is no files!" << std::endl << std::endl;
   } else {
     std::cout << "There is an information about file you are looking for:\n"
                  "File name: "
@@ -218,36 +221,39 @@ void Menu::DisplayFileInfo(std::uint8_t file_index) {
               << "\n\tKey length: " << files_container_->at(file_index).GetFileSecurityInfo().key_length_
               << "\n\tEncryption time: " << files_container_->at(file_index).GetFileSecurityInfo().encription_time_
               << std::endl;
+    std::cout << std::endl;
   }
 }
 
-void Menu::DisplayAllFilesInfo(std::uint8_t start_index) {
+void Menu::DisplayAllFilesInfo(std::uint16_t start_index) {
   if (IsEmpty()) {
-    std::cout << "There is not files" << std::endl;
+    std::cout << "There is no files" << std::endl << std::endl;
   } else {
     for (; start_index < files_container_->size(); ++start_index) {
       DisplayFileInfo(start_index);
     }
+    std::cout << std::endl;
   }
 }
 
-void Menu::DisplayInOrder(std::uint8_t order) {
+void Menu::DisplayInOrder(std::uint16_t order) {
   if (IsEmpty()) {
-    std::cout << "There is not files" << std::endl;
+    std::cout << "There is no files" << std::endl << std::endl;
   } else {
     switch (order) {
       case 0:
         DisplayAllFilesInfo();
         break;
       case 1:
-        for (std::uint8_t index = files_container_->size(); index > 0; --index) {
-          DisplayFileInfo(index);
+        for (std::uint16_t index = files_container_->size(); index > 0; index--) {
+          DisplayFileInfo(index - 1);
         }
         break;
       default:
         std::cout << "Input order is not correct!" << std::endl;
         break;
     }
+    std::cout << std::endl;
   }
 }
 
@@ -260,50 +266,66 @@ bool Menu::IsEmpty() {
 }
 
 void Menu::RunAppLogic(std::string input_command) {
+  std::cout << std::endl;
   if (input_command == "list") {
     DisplayAllFilesList();
+    DisplayPossibleCommands();
   } else if (input_command == "add") {
     AddFile();
+    DisplayPossibleCommands();
   } else if (input_command == "fi") {
-    std::uint8_t file_index;
-    std::cout << "Enter file index you want to see. File list: " << std::endl;
+    std::uint16_t file_index;
+    std::cout << "File list: " << std::endl;
     DisplayAllFilesList();
+    std::cout << "Enter file index you want to see: " << std::endl;
     std::cin >> file_index;
     std::cout << std::endl;
+    DisplayPossibleCommands();
     DisplayFileInfo(file_index);
   } else if (input_command == "sf") {
-    std::uint8_t file_index;
-    std::cout << "Enter file index you want to see. File list: " << std::endl;
+    std::uint16_t file_index;
+    std::cout << "File list: " << std::endl;
     DisplayAllFilesList();
+    std::cout << "Enter file index you want to start with: " << std::endl;
     std::cin >> file_index;
     std::cout << std::endl;
-    DisplayAllFilesInfo();
+    DisplayAllFilesInfo(file_index);
+    DisplayPossibleCommands();
   } else if (input_command == "sio") {
-    std::uint8_t order;
+    std::uint16_t order;
     std::cout << "Enter a number in which order you want to see files info:\n\t0 - direct order;\n\t1 - reverse order"
               << std::endl;
     std::cin >> order;
     std::cout << std::endl;
     DisplayInOrder(order);
+    DisplayPossibleCommands();
   } else if (input_command == "update") {
-    std::uint8_t file_index;
-    std::cout << "Enter file index you want to update. File list: " << std::endl;
+    std::uint16_t file_index;
+    std::cout << "File list: " << std::endl;
     DisplayAllFilesList();
+    std::cout << "Enter file index you want to update: " << std::endl;
     std::cin >> file_index;
     std::cout << std::endl;
     UpdateFileInfo(file_index);
+    DisplayPossibleCommands();
   } else if (input_command == "rm") {
-    std::uint8_t file_index;
-    std::cout << "Enter file index you want to delete. File list: " << std::endl;
+    std::uint16_t file_index;
+    std::cout << "File list: " << std::endl;
     DisplayAllFilesList();
+    std::cout << "Enter file index you want to remove: " << std::endl;
     std::cin >> file_index;
     std::cout << std::endl;
     RemoveFileInfo(file_index);
+    DisplayPossibleCommands();
   } else if (input_command == "clear") {
     ClearAllFilesInfo();
-  } else if(IncorrectCommand(input_command)) {
-      DisplayPossibleCommands();
+    DisplayPossibleCommands();
+  } else if (input_command == "exit") {
+    Exit();
+  } else if (IncorrectCommand(input_command)) {
+    DisplayPossibleCommands();
   }
+  std::cout << std::endl;
 }
 
 void Menu::Exit() {
@@ -312,6 +334,7 @@ void Menu::Exit() {
   } else {
     // Clear all the information about files
     files_container_->clear();
+    std::cout << "Data is cleaned up!" << std::endl;
   }
 }
 }  // namespace menu

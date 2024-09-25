@@ -58,7 +58,7 @@ class Menu {
    *
    * @param file_idex used to indicate which file to update
    */
-  void UpdateFileInfo(std::uint8_t file_index);
+  void UpdateFileInfo(std::uint16_t file_index);
 
   /**
    * @brief Method to display main menu with all needed information
@@ -81,27 +81,27 @@ class Menu {
    *
    * @param file_index
    */
-  void DisplayFileInfo(std::uint8_t file_index);
+  void DisplayFileInfo(std::uint16_t file_index);
 
   /**
    * @brief Method to display info about all files starting input index
    *
    * @param start_index By default = 0 to show all files if nothing is entered
    */
-  void DisplayAllFilesInfo(std::uint8_t start_index = 0);
+  void DisplayAllFilesInfo(std::uint16_t start_index = 0);
 
   /**
    * @brief Method to display file info in order entered by user
    *
    */
-  void DisplayInOrder(std::uint8_t order);
+  void DisplayInOrder(std::uint16_t order);
 
   /**
    * @brief Method to infomation for a single file
    *
    * @param file_index used to indicate which file to remove
    */
-  void RemoveFileInfo(std::uint8_t file_index);
+  void RemoveFileInfo(std::uint16_t file_index);
 
   /**
    * @brief Method to remove all information for all files
