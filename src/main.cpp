@@ -18,6 +18,12 @@ int main() {
   // Start the spplication
   menu->StartApp();
 
+  std::string command = {};
+  std::cin >> command;
+  while(command != "exit") {
+    RunAppLogic(command);
+  }
+  menu->Exit();
   delete menu;
 
 return 0;

@@ -33,44 +33,32 @@ class Menu {
    * @brief Methods to control the actions of program
    * Stops when "exit" command is called
    */
-  void RunAppLogic();
+  void RunAppLogic(std::string input_command);
 
- private:
-    /**
+  /**
    * @brief Method to exit the aplication
    * Clears all files and info about them
    */
   void Exit();
 
+ private:
   /**
    * @brief Sets initial information about the files to work with
    */
   void Init();
 
   /**
-   * @brief Method to get the indicator that application is running
-   *
-   * @return true if application is running
-   * @return false if application receives a command to stop
-   */
-  bool IsRunning() { return is_running_; }
-
-  /**
    * @brief Method to add the file and information about it
    * File will be numbered and added as the last one in the list of existing files
    */
-  void AddFile(std::string file_name, std::string creation_date, std::uint64_t number_of_file_accesses,
-               std::string file_size, file_security::EncriptionType encription_type, std::uint8_t key_length,
-               std::string encription_time);
+  void AddFile();
 
   /**
    * @brief Methods to update the info about specific file
    *
    * @param file_idex used to indicate which file to update
    */
-  void UpdateFileInfo(std::string file_name, std::string creation_date, std::uint64_t number_of_file_accesses = 0,
-                  std::string file_size, file_security::EncriptionType encription_type, std::uint8_t key_length,
-                  std::string encription_time, std::uint8_t file_index);
+  void UpdateFileInfo(std::uint8_t file_index);
 
   /**
    * @brief Method to display main menu with all needed information
@@ -137,8 +125,6 @@ class Menu {
    */
   bool IsEmpty();
 
-  std::string command_;
-  bool is_running_;
   std::vector<std::string> available_commands;
   std::unique_ptr<std::vector<filesystem_info::FileSystem>> files_container_;
 };
