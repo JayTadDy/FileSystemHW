@@ -164,7 +164,7 @@ void Menu::UpdateFileInfo(std::uint16_t file_index) {
 
     bool encryption_type_command;
     file_security::EncriptionType encription_type;
-    std::cout << "Select the encription type for file:\n\t1.0 - for Symmetric\n\t1. - for Assymetric ";
+    std::cout << "Select the encription type for file:\n\t0 - for Symmetric\n\t1 - for Assymetric ";
     std::cin >> encryption_type_command;
     std::cout << std::endl;
     if (encryption_type_command) {
@@ -176,12 +176,6 @@ void Menu::UpdateFileInfo(std::uint16_t file_index) {
     std::uint16_t key_length;
     std::cout << "Select the expected key size in bits: 32, 64, 128, 256 ";
     std::cin >> key_length;
-    std::cout << std::endl;
-    while ((key_length != 32) || (key_length != 64) || (key_length != 128) || (key_length != 256)) {
-      std::cout << "Enter the correct value which is one of the following: 32, 64, 128, 256: ";
-      std::cin >> key_length;
-      std::cout << std::endl;
-    }
 
     std::string encription_time;
     std::cout << "Enter expected encription_time: ";
@@ -280,8 +274,8 @@ void Menu::RunAppLogic(std::string input_command) {
     std::cout << "Enter file index you want to see: " << std::endl;
     std::cin >> file_index;
     std::cout << std::endl;
-    DisplayPossibleCommands();
     DisplayFileInfo(file_index);
+    DisplayPossibleCommands();
   } else if (input_command == "sf") {
     std::uint16_t file_index;
     std::cout << "File list: " << std::endl;
